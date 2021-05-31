@@ -41,28 +41,15 @@ class Wavegen extends Command {
 
     const out = makeWave(flags.length, flags.wave, flags.type)
 
-    // const outStr = JSON.stringify({
-    //   length: Math.floor(flags.length),
-    //   wave: flags.wave,
-    //   format: 'float',
-    //   out: [...out.values()],
-    // })
-
-    // await new Promise<void>((resolve, reject) => {
-    //   fs.writeFile(args.output, outStr, {encoding: 'utf8'}, err => {
-    //     if (err) {
-    //       reject(err)
-    //     } else {
-    //       resolve()
-    //     }
-    //   })
-    // })
-
-    const wav = new WaveFile()
-    wav.fromScratch(1, 44100, '32', [...out])
+    const outStr = JSON.stringify({
+      length: Math.floor(flags.length),
+      wave: flags.wave,
+      format: 'float',
+      out: [...out.values()],
+    })
 
     await new Promise<void>((resolve, reject) => {
-      fs.writeFile(args.output, wav.toBuffer(), {encoding: 'utf8'}, err => {
+      fs.writeFile(args.output, outStr, {encoding: 'utf8'}, err => {
         if (err) {
           reject(err)
         } else {
@@ -70,6 +57,19 @@ class Wavegen extends Command {
         }
       })
     })
+
+    // const wav = new WaveFile()
+    // wav.fromScratch(1, 44100, '32', [...out])
+
+    // await new Promise<void>((resolve, reject) => {
+    //   fs.writeFile(args.output, wav.toBuffer(), {encoding: 'utf8'}, err => {
+    //     if (err) {
+    //       reject(err)
+    //     } else {
+    //       resolve()
+    //     }
+    //   })
+    // })
   }
 }
 
