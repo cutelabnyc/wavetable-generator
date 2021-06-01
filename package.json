@@ -1,5 +1,5 @@
 {
-  "name": "wavetable-generator",
+  "name": "@cutelab/wavegen",
   "description": "Command line tool to generate antialiased wavetables",
   "version": "1.0.0",
   "author": "cutelabnyc@gmail.com",
@@ -53,5 +53,6 @@
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif-dev readme && git add README.md"
   },
+  "pkg.scripts": "./lib/**/*.js",
   "types": "lib/index.d.ts"
 }

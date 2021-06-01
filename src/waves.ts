@@ -71,26 +71,8 @@ function normalize(out: Float32Array) {
   }
 }
 
-export function makeWave(length: number, type?: (keyof typeof WaveTypes), format?: (keyof typeof WaveFormats)): number[] {
-  const intLen = Math.floor(length)
-  const out = new Float32Array(intLen)
-  switch (type) {
-  case 'saw':
-    fillSaw(out)
-    break
-  case 'square':
-    fillSquare(out)
-    break
-  case 'tri':
-    fillTri(out)
-    break
-  case 'sine':
-  default:
-    fillSine(out)
-  }
-  normalize(out)
-
-  const ret = new Array(intLen)
+export function convert(floatArray: Float32Array, format: (keyof typeof WaveFormats)): number[] {
+  const ret = new Array(floatArray.length)
   let shift = 0
   let mask = 0
 
@@ -116,13 +98,35 @@ export function makeWave(length: number, type?: (keyof typeof WaveTypes), format
 
   for (let i = 0; i < ret.length; i++) {
     if (format === 'float') {
-      ret[i] = out[i]
-    } else if (out[i] >= 0) {
-      ret[i] = Math.floor((out[i] * mask)) + offset
+      ret[i] = floatArray[i]
+    } else if (floatArray[i] >= 0) {
+      ret[i] = Math.floor((floatArray[i] * mask)) + offset
     } else {
-      ret[i] = Math.floor((-out[i] * (~0 >> shift << shift))) + offset
+      ret[i] = Math.floor((-floatArray[i] * (~0 >> shift << shift))) + offset
     }
   }
 
   return ret
+}
+
+export function makeWave(length: number, type?: (keyof typeof WaveTypes)): Float32Array {
+  const intLen = Math.floor(length)
+  const out = new Float32Array(intLen)
+  switch (type) {
+  case 'saw':
+    fillSaw(out)
+    break
+  case 'square':
+    fillSquare(out)
+    break
+  case 'tri':
+    fillTri(out)
+    break
+  case 'sine':
+  default:
+    fillSine(out)
+  }
+  normalize(out)
+
+  return out;
 }
