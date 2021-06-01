@@ -1,7 +1,7 @@
 {
   "name": "@cutelab/wavegen",
   "description": "Command line tool to generate antialiased wavetables",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "cutelabnyc@gmail.com",
   "bin": {
     "wavegen": "./bin/run"
